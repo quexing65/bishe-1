@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视频识别 - 车辆感知系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-theme="black">
+    <div class="theme-switcher">
+        <button class="theme-btn white" onclick="setTheme('white')" title="白色主题"></button>
+        <button class="theme-btn gray" onclick="setTheme('gray')" title="灰色主题"></button>
+        <button class="theme-btn black" onclick="setTheme('black')" title="黑色主题"></button>
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>基于图像增强的<br>恶劣天气车辆感知</h1>
+            <span>Vehicle Perception System</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="image.html"><span class="icon">&#9632;</span>图片识别</a></li>
+            <li><a href="video.html" class="active"><span class="icon">&#9654;</span>视频识别</a></li>
+            <li><a href="camera.html"><span class="icon">&#9673;</span>摄像头识别</a></li>
+        </ul>
+        <div class="nav-section-title">数据</div>
+        <ul class="nav-menu">
+            <li><a href="history.html"><span class="icon">&#9776;</span>历史记录</a></li>
+            <li><a href="test_result.html"><span class="icon">&#9733;</span>测试结果</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <a href="/" class="back-link">返回首页</a>
+        <div class="page-header">
+            <h2>视频识别</h2>
+            <p>上传视频进行车辆检测与图像增强</p>
+        </div>
+
+        <div class="content-card">
+            <h3>参数设置</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>图像增强模式</label>
+                    <select id="enhancementType">
+                        <option value="auto">自动识别场景</option>
+                        <optgroup label="去雾">
+                            <option value="dehaze">去雾增强 (NAFNet)</option>
+                            <option value="ffa_dehaze">去雾增强 (FFA-Net ITS)</option>
+                            <option value="ffa_dehaze_ots">去雾增强 (FFA-Net OTS)</option>
+                            <option value="legacy_dehaze">去雾增强 (传统CLAHE)</option>
+                        </optgroup>
+                        <optgroup label="去雨">
+                            <option value="derain">去雨增强 (NAFNet)</option>
+                            <option value="legacy_derain">去雨增强 (传统方法)</option>
+                        </optgroup>
+                        <optgroup label="低光照">
+                            <option value="low_light">低光照增强 (CLAHE)</option>
+                            <option value="mbllen">低光照增强 (MBLLEN)</option>
+                            <option value="mbllen_onnx">低光照增强 (MBLLEN ONNX)</option>
+                            <option value="zero_dce">低光照增强 (Zero-DCE)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group" id="strengthGroup" style="display: none;">
+                    <label>去雾强度: <span id="strengthValue">1.5</span></label>
+                    <input type="range" id="strength" min="0.5" max="3.0" step="0.1" value="1.5" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                    <label>YOLO模型</label>
+                    <select id="modelType">
+                        <option value="yolov8x">YOLOv8x (精度最高)</option>
+                        <option value="yolov8s">YOLOv8s (平衡)</option>
+                        <option value="yolov8n">YOLOv8n (速度最快)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 10px; margin-top: 30px; flex-wrap: wrap;">
+                <h3 style="margin: 0; white-space: nowrap;">上传视频</h3>
+                <input type="file" id="fileInput" accept="video/*" style="display: none;">
+                <button class="btn btn-sm btn-outline" id="uploadBtn">选择视频</button>
+                <button class="btn btn-sm btn-accent" id="enhanceBtn" disabled>视频增强</button>
+                <span class="file-tag" id="fileName"></span>
+            </div>
+
+            <div class="image-pipeline">
+                <div class="pipeline-step" id="stepUpload">
+                    <h4>原始视频</h4>
+                    <video id="preview" class="pipeline-preview-video" controls></video>
+                    <button class="btn btn-sm btn-accent" id="reEnhanceBtn" style="display: none;">重新增强</button>
+                </div>
+
+                <div class="pipeline-step" id="stepEnhanced" style="display: none;">
+                    <h4>增强结果</h4>
+                    <video id="enhancedVideo" class="pipeline-preview-video" controls></video>
+                    <span class="step-badge done" id="enhanceDone" style="display: none;">增强完成</span>
+                </div>
+
+                <div class="pipeline-step" id="stepDetected" style="display: none;">
+                    <h4>检测结果</h4>
+                    <video id="detectedVideo" class="pipeline-preview-video" controls></video>
+                    <button class="btn btn-sm btn-accent" id="detectBtn">YOLO检测</button>
+                    <div class="step-status" id="detectStatus" style="display: none;">
+                        <div class="spinner mini"></div>
+                        <span>正在检测...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-status" id="enhanceStatus" style="display: none; justify-content: center;">
+                <div class="spinner mini"></div>
+                <span>正在增强视频，请稍候...</span>
+            </div>
+        </div>
+
+        <div class="content-card" id="resultCard" style="display: none;">
+            <h3>检测结果</h3>
+            <div class="results-grid">
+                <div class="result-card total"><h4>峰值车辆数</h4><div class="count" id="totalCount">0</div></div>
+                <div class="result-card"><h4>轿车</h4><div class="count" id="carCount">0</div></div>
+                <div class="result-card"><h4>卡车</h4><div class="count" id="truckCount">0</div></div>
+                <div class="result-card"><h4>公交车</h4><div class="count" id="busCount">0</div></div>
+                <div class="result-card"><h4>摩托车</h4><div class="count" id="motorcycleCount">0</div></div>
+                <div class="result-card"><h4>自行车</h4><div class="count" id="bicycleCount">0</div></div>
+            </div>
+            <div class="processing-time-info">
+                <span id="timeEnhance"></span>
+                <span id="timeDetect" style="margin-left: 20px;"></span>
+            </div>
+        </div>
+    </main>
+
+    <style>
+        .image-pipeline {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            margin-top: 16px;
+        }
+        .pipeline-step {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .pipeline-step h4 {
+            font-size: 14px;
+            color: var(--accent);
+            margin: 0 0 8px 0;
+            font-weight: 400;
+        }
+        .pipeline-preview-video {
+            width: 100%;
+            max-height: 240px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: #000;
+            display: block;
+        }
+        .pipeline-step .btn {
+            margin-top: 12px;
+            width: 100%;
+        }
+        .step-badge {
+            display: block;
+            width: 100%;
+            margin-top: 8px;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .step-badge.done {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+        .step-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+            color: var(--accent);
+            font-size: 14px;
+        }
+        .spinner.mini {
+            width: 16px;
+            height: 16px;
+            border-width: 2px;
+        }
+        .btn-accent {
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--accent);
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        .btn-accent:not(:disabled):hover {
+            background: var(--accent);
+            color: #000;
+        }
+        .btn-accent:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .file-tag {
+            display: inline-block;
+            max-width: 260px;
+            padding: 4px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            position: relative;
+        }
+        .file-tag::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 32px;
+            background: linear-gradient(to right, transparent, var(--card-bg));
+            pointer-events: none;
+        }
+    </style>
+
+    <script>
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        const savedTheme = localStorage.getItem('theme') || 'black';
+        document.body.setAttribute('data-theme', savedTheme);
+
+        const API_BASE = 'http://127.0.0.1:5000';
+
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameEl = document.getElementById('fileName');
+        const preview = document.getElementById('preview');
+        const enhanceBtn = document.getElementById('enhanceBtn');
+        const detectBtn = document.getElementById('detectBtn');
+        const enhanceStatus = document.getElementById('enhanceStatus');
+        const detectStatus = document.getElementById('detectStatus');
+        const stepEnhanced = document.getElementById('stepEnhanced');
+        const stepDetected = document.getElementById('stepDetected');
+        const enhanceDone = document.getElementById('enhanceDone');
+        const reEnhanceBtn = document.getElementById('reEnhanceBtn');
+
+        let enhanceData = null;
+
+        const enhancementType = document.getElementById('enhancementType');
+        const strengthGroup = document.getElementById('strengthGroup');
+        const strengthSlider = document.getElementById('strength');
+        const strengthValue = document.getElementById('strengthValue');
+
+        enhancementType.addEventListener('change', function() {
+            const isFFA = this.value === 'ffa_dehaze' || this.value === 'ffa_dehaze_ots';
+            strengthGroup.style.display = isFFA ? 'block' : 'none';
+        });
+
+        strengthSlider.addEventListener('input', function() {
+            strengthValue.textContent = this.value;
+        });
+
+        uploadBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect() {
+            const file = fileInput.files[0];
+            if (!file) return;
+            fileNameEl.textContent = file.name;
+            const url = URL.createObjectURL(file);
+            preview.src = url;
+            preview.style.display = 'block';
+            enhanceBtn.disabled = false;
+            document.getElementById('resultCard').style.display = 'none';
+            stepEnhanced.style.display = 'none';
+            stepDetected.style.display = 'none';
+            enhanceData = null;
+        }
+
+        enhanceBtn.addEventListener('click', async () => {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            enhanceBtn.style.display = 'none';
+            enhanceStatus.style.display = 'flex';
+            enhanceDone.style.display = 'none';
+            reEnhanceBtn.style.display = 'none';
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('enhancement_type', document.getElementById('enhancementType').value);
+            formData.append('strength', document.getElementById('strength').value);
+
+            try {
+                const resp = await fetch(`${API_BASE}/api/video/enhance`, { method: 'POST', body: formData });
+                const data = await resp.json();
+                if (data.success) {
+                    enhanceData = data;
+                    document.getElementById('enhancedVideo').src = `${API_BASE}${data.enhanced_video}`;
+                    stepEnhanced.style.display = 'flex';
+                    stepDetected.style.display = 'flex';
+                    enhanceDone.style.display = 'inline-block';
+                    reEnhanceBtn.style.display = 'inline-block';
+                    enhanceStatus.style.display = 'none';
+                    detectBtn.style.display = 'inline-block';
+                    detectStatus.style.display = 'none';
+                } else {
+                    alert('增强失败: ' + data.error);
+                    enhanceBtn.style.display = 'inline-block';
+                    enhanceStatus.style.display = 'none';
+                }
+            } catch (err) {
+                alert('请求失败: ' + err.message);
+                enhanceBtn.style.display = 'inline-block';
+                enhanceStatus.style.display = 'none';
+            }
+        });
+
+        detectBtn.addEventListener('click', async () => {
+            if (!enhanceData) return;
+
+            detectBtn.style.display = 'none';
+            detectStatus.style.display = 'flex';
+
+            const modelType = document.getElementById('modelType').value;
+            const file = fileInput.files[0];
+
+            try {
+                const resp = await fetch(`${API_BASE}/api/video/detect`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        enhanced_path: enhanceData.enhanced_path,
+                        unique_name: enhanceData.unique_name,
+                        model_type: modelType,
+                        original_filename: file ? file.name : '',
+                    })
+                });
+                const data = await resp.json();
+                if (data.success) {
+                    document.getElementById('totalCount').textContent = data.total_vehicles;
+                    document.getElementById('carCount').textContent = data.counts.car || 0;
+                    document.getElementById('truckCount').textContent = data.counts.truck || 0;
+                    document.getElementById('busCount').textContent = data.counts.bus || 0;
+                    document.getElementById('motorcycleCount').textContent = data.counts.motorcycle || 0;
+                    document.getElementById('bicycleCount').textContent = data.counts.bicycle || 0;
+
+                    document.getElementById('detectedVideo').src = `${API_BASE}${data.output_video}`;
+                    document.getElementById('resultCard').style.display = 'block';
+
+                    document.getElementById('timeEnhance').innerHTML =
+                        '<strong style="color:var(--accent);">增强耗时：</strong>' + enhanceData.enhance_time + ' 秒';
+                    document.getElementById('timeDetect').innerHTML =
+                        '<strong style="color:var(--accent);">检测耗时：</strong>' + data.detect_time + ' 秒';
+
+                    detectStatus.style.display = 'none';
+                    detectBtn.style.display = 'inline-block';
+                    detectBtn.textContent = '重新检测';
+                } else {
+                    alert('检测失败: ' + data.error);
+                    detectBtn.style.display = 'inline-block';
+                    detectStatus.style.display = 'none';
+                }
+            } catch (err) {
+                alert('请求失败: ' + err.message);
+                detectBtn.style.display = 'inline-block';
+                detectStatus.style.display = 'none';
+            }
+        });
+
+        reEnhanceBtn.addEventListener('click', () => {
+            enhanceBtn.click();
+        });
+    </script>
+</body>
+</html>

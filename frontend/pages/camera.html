@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>摄像头识别 - 车辆感知系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-theme="black">
+    <div class="theme-switcher">
+        <button class="theme-btn white" onclick="setTheme('white')" title="白色主题"></button>
+        <button class="theme-btn gray" onclick="setTheme('gray')" title="灰色主题"></button>
+        <button class="theme-btn black" onclick="setTheme('black')" title="黑色主题"></button>
+    </div>
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>基于图像增强的<br>恶劣天气车辆感知</h1>
+            <span>Vehicle Perception System</span>
+        </div>
+        
+        <ul class="nav-menu">
+            <li>
+                <a href="image.html">
+                    <span class="icon">&#9632;</span>
+                    图片识别
+                </a>
+            </li>
+            <li>
+                <a href="video.html">
+                    <span class="icon">&#9654;</span>
+                    视频识别
+                </a>
+            </li>
+            <li>
+                <a href="camera.html" class="active">
+                    <span class="icon">&#9673;</span>
+                    摄像头识别
+                </a>
+            </li>
+        </ul>
+        
+        <div class="nav-section-title">数据</div>
+        <ul class="nav-menu">
+            <li>
+                <a href="history.html">
+                    <span class="icon">&#9776;</span>
+                    历史记录
+                </a>
+            </li>
+            <li>
+                <a href="test_result.html">
+                    <span class="icon">&#9733;</span>
+                    测试结果
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <a href="/" class="back-link">返回首页</a>
+        
+        <div class="page-header">
+            <h2>摄像头实时识别</h2>
+            <p>点击开启摄像头后自动连续识别</p>
+        </div>
+        
+        <div class="content-card">
+            <h3>参数设置</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>图像增强模式</label>
+                    <select id="enhancementType">
+                        <option value="auto">自动识别场景</option>
+                        <optgroup label="去雾">
+                            <option value="dehaze">去雾增强 (NAFNet)</option>
+                            <option value="ffa_dehaze">去雾增强 (FFA-Net ITS)</option>
+                            <option value="ffa_dehaze_ots">去雾增强 (FFA-Net OTS)</option>
+                            <option value="legacy_dehaze">去雾增强 (传统CLAHE)</option>
+                        </optgroup>
+                        <optgroup label="去雨">
+                            <option value="derain">去雨增强 (NAFNet)</option>
+                            <option value="legacy_derain">去雨增强 (传统方法)</option>
+                        </optgroup>
+                        <optgroup label="低光照">
+                            <option value="low_light">低光照增强 (CLAHE)</option>
+                            <option value="mbllen">低光照增强 (MBLLEN)</option>
+                            <option value="mbllen_onnx">低光照增强 (MBLLEN ONNX)</option>
+                            <option value="zero_dce">低光照增强 (Zero-DCE)</option>
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="form-group" id="strengthGroup" style="display: none;">
+                    <label>去雾强度: <span id="strengthValue">1.5</span></label>
+                    <input type="range" id="strength" min="0.5" max="3.0" step="0.1" value="1.5" style="width: 100%;">
+                </div>
+                <div class="form-group">
+                    <label>YOLO模型</label>
+                    <select id="modelType">
+                        <option value="yolov8n">yolov8n (最快)</option>
+                        <option value="yolov8s">yolov8s (平衡)</option>
+                        <option value="yolov8x">yolov8x (最准)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <video id="video" autoplay playsinline style="width:100%;max-width:640px;border-radius:10px;margin:20px auto;display:block;border:1px solid var(--border);"></video>
+            
+            <div style="display:flex;gap:12px;justify-content:center;margin-top:20px;">
+                <button class="btn btn-md btn-primary" id="startBtn" onclick="startCamera()">开启摄像头</button>
+                <button class="btn btn-md btn-outline" id="stopBtn" onclick="stopCamera()" style="display:none;">停止</button>
+            </div>
+            
+            <div id="loading" style="display:none;text-align:center;padding:30px;">
+                <div class="spinner"></div>
+                <p>正在识别...</p>
+            </div>
+        </div>
+        
+        <div class="content-card" id="resultCard" style="display:none;">
+            <h3>检测结果 (去重统计)</h3>
+            <div class="results-grid">
+                <div class="result-card total">
+                    <h4>当前画面车辆</h4>
+                    <div class="count" id="totalCount">0</div>
+                </div>
+                <div class="result-card"><h4>car</h4><div class="count" id="carCount">0</div></div>
+                <div class="result-card"><h4>truck</h4><div class="count" id="truckCount">0</div></div>
+                <div class="result-card"><h4>bus</h4><div class="count" id="busCount">0</div></div>
+                <div class="result-card"><h4>motorcycle</h4><div class="count" id="motorcycleCount">0</div></div>
+                <div class="result-card"><h4>bicycle</h4><div class="count" id="bicycleCount">0</div></div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        const API_BASE = 'http://127.0.0.1:5000';
+        let stream = null;
+        let intervalId = null;
+        
+        function setTheme(t) {
+            document.body.setAttribute('data-theme', t);
+            localStorage.setItem('theme', t);
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'black';
+        document.body.setAttribute('data-theme', savedTheme);
+        
+        const enhancementType = document.getElementById('enhancementType');
+        const strengthGroup = document.getElementById('strengthGroup');
+        const strengthSlider = document.getElementById('strength');
+        const strengthValue = document.getElementById('strengthValue');
+
+        enhancementType.addEventListener('change', function() {
+            const isFFA = this.value === 'ffa_dehaze' || this.value === 'ffa_dehaze_ots';
+            strengthGroup.style.display = isFFA ? 'block' : 'none';
+        });
+
+        strengthSlider.addEventListener('input', function() {
+            strengthValue.textContent = this.value;
+        });
+        
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false});
+                document.getElementById('video').srcObject = stream;
+                document.getElementById('startBtn').style.display = 'none';
+                document.getElementById('stopBtn').style.display = 'inline-flex';
+                
+                intervalId = setInterval(captureAndDetect, 1000);
+            } catch(e) {
+                alert('摄像头错误: ' + e.message);
+            }
+        }
+        
+        function stopCamera() {
+            if (intervalId) clearInterval(intervalId);
+            if (stream) stream.getTracks().forEach(t => t.stop());
+            document.getElementById('video').srcObject = null;
+            document.getElementById('startBtn').style.display = 'inline-flex';
+            document.getElementById('stopBtn').style.display = 'none';
+        }
+        
+        async function captureAndDetect() {
+            const video = document.getElementById('video');
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 480;
+            canvas.getContext('2d').drawImage(video, 0, 0);
+            
+            const base64 = canvas.toDataURL('image/jpeg').split(',')[1];
+            
+            try {
+                const res = await fetch(API_BASE + '/api/camera/detect', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        frame: base64,
+                        model_type: document.getElementById('modelType').value,
+                        enhancement_type: document.getElementById('enhancementType').value,
+                        strength: parseFloat(document.getElementById('strength').value)
+                    })
+                });
+                
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('totalCount').textContent = data.total_vehicles;
+                    document.getElementById('carCount').textContent = data.counts.car;
+                    document.getElementById('truckCount').textContent = data.counts.truck;
+                    document.getElementById('busCount').textContent = data.counts.bus;
+                    document.getElementById('motorcycleCount').textContent = data.counts.motorcycle;
+                    document.getElementById('bicycleCount').textContent = data.counts.bicycle;
+                    document.getElementById('resultCard').style.display = 'block';
+                }
+            } catch(e) {}
+        }
+    </script>
+</body>
+</html>

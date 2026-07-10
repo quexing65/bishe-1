@@ -1,0 +1,127 @@
+<mxfile host="Electron">
+  <diagram name="第 1 页" id="9bDP8oRiL5NZOisGN2H3">
+    <mxGraphModel dx="1608" dy="1029" grid="0" gridSize="1" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" background="light-dark(#FFFFFF,#FFFFFF)" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="RsARJMO7sJI68hxSpEA0-1" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" value="前端页面" vertex="1">
+          <mxGeometry height="992" width="150" x="73" y="18" as="geometry" />
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-2" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" value="image_routes" vertex="1">
+          <mxGeometry height="992" width="150" x="322" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-3" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" value="ImageEnhancer" vertex="1">
+          <mxGeometry height="992" width="150" x="623" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-4" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" value="VehicleDetector" vertex="1">
+          <mxGeometry height="992" width="150" x="823" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-5" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" value="MySQL / FileSystem" vertex="1">
+          <mxGeometry height="988" width="196" x="1090" y="24" as="geometry" />
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-6" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-1" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-2" value="POST /enhance (FormData)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="131" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-7" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-2" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-5" value="文件校验 + UUID + 保存到磁盘">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="794" y="183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-8" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-2" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-3" value="enhance_image()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="541" y="239" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-9" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-3" style="curved=1;endArrow=block;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-3" value="NAFNet/MBLLEN/CLAHE 推理">
+          <mxGeometry relative="1" x="-0.2244" y="110" as="geometry">
+            <mxPoint y="-7" as="offset" />
+            <Array as="points">
+              <mxPoint x="749" y="295" />
+              <mxPoint x="749" y="325" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-10" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-3" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-5" value="保存到 output/">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="959" y="381" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-11" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-3" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-2" value="{ enhanced_image, enhance_time }">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="544" y="437" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-12" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-2" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-1" value="HTTP 200 JSON">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="243" y="493" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-13" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-1" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-2" value="POST /detect (JSON)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="240" y="549" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-14" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-2" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-4" value="detect_vehicles()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="641" y="605" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-15" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-4" style="curved=1;endArrow=block;rounded=0;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-4" value="YOLOv8 推理 + 绘制边界框">
+          <mxGeometry relative="1" x="-0.2244" y="94" as="geometry">
+            <mxPoint x="-1" y="-12" as="offset" />
+            <Array as="points">
+              <mxPoint x="949" y="657" />
+              <mxPoint x="949" y="687" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-16" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-4" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-5" value="保存标注图">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1059" y="739" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-17" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-4" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-5" value="INSERT INTO detection_records">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1059" y="795" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-18" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-4" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-2" value="{ counts, detected_image, detect_time }">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="644" y="851" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="RsARJMO7sJI68hxSpEA0-19" edge="1" parent="1" source="RsARJMO7sJI68hxSpEA0-2" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=light-dark(#000000,#33001A);fontSize=18;" target="RsARJMO7sJI68hxSpEA0-1" value="HTTP 200 JSON">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="243" y="907" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

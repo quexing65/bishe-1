@@ -1,0 +1,104 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="sZ-JgF7TyTz8H-urkVng">
+    <mxGraphModel dx="1862" dy="725" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-205" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=16;" value="&lt;b&gt;数据持久化层 · 存储层&lt;/b&gt;" vertex="1">
+          <mxGeometry height="295" width="300" x="1469" y="919" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-206" parent="ovT4QU-ut75GtoFgMKDI-205" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="MySQL 8.0&#xa;detection_records 表&#xa;检测记录 · 车辆统计&#xa;处理耗时 · 创建时间" vertex="1">
+          <mxGeometry height="99.91935483870968" width="211" x="53" y="34.0994623655914" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-207" parent="ovT4QU-ut75GtoFgMKDI-205" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="文件系统 (磁盘)&#xa;uploads/ 原始图像&#xa;output/ 增强/标注图像&#xa;weights/ 模型权重文件" vertex="1">
+          <mxGeometry height="99.91935483870968" width="225" x="44" y="166" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-208" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=16;" value="&lt;b&gt;业务逻辑层 · Flask 后端服务&lt;/b&gt;" vertex="1">
+          <mxGeometry height="690" width="389" x="918" y="723" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-222" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=18;" value="&lt;b&gt;表示层 · 前端应用&lt;/b&gt;" vertex="1">
+          <mxGeometry height="555" width="265" x="412" y="792" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-223" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="首页导航&#xa;index" vertex="1">
+          <mxGeometry height="74.74371859296483" width="125.22620689655172" x="80.41379310344827" y="38.11557788944724" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-224" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="图片识别&#xa;image" vertex="1">
+          <mxGeometry height="82.16231155778894" width="134.32758620689654" x="73.99862068965517" y="126.99603015075377" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-225" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="视频识别&#xa;video" vertex="1">
+          <mxGeometry height="78.4251256281407" width="117.00206896551724" x="84.98275862068965" y="212.8894472361809" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-226" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="摄像头识别&#xa;camera" vertex="1">
+          <mxGeometry height="71.89899497487438" width="139.94741379310346" x="74.01724137931035" y="300.27638190954775" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-227" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="历史记录&#xa;history" vertex="1">
+          <mxGeometry height="68.16180904522612" width="124.31241379310346" x="75.8448275862069" y="387.9957788944723" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-228" parent="ovT4QU-ut75GtoFgMKDI-222" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="HTML5 + CSS3 + JavaScript" vertex="1">
+          <mxGeometry height="49.540954773869345" width="222.1248275862069" x="22.844827586206897" y="483.9979899497488" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-229" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="&lt;b&gt;基于图像增强的&#xa;恶劣天气车辆感知系统&lt;/b&gt;" vertex="1">
+          <mxGeometry height="92" width="303" x="394" y="677" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-230" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-229" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=18;entryDx=0;entryDy=0;exitDx=0;exitDy=0;" target="ovT4QU-ut75GtoFgMKDI-222" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-231" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-222" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-208" value="RESTful API (HTTP / JSON)">
+          <mxGeometry relative="1" x="-0.0269" y="23" as="geometry">
+            <mxPoint x="-1" as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-232" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-208" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-205" value="PyMySQL / 文件 I/O">
+          <mxGeometry relative="1" x="0.0352" y="23" as="geometry">
+            <mxPoint x="1" as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-209" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=17;" value="&lt;b&gt;算法层 (ONNX Runtime)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="251" width="257" x="984" y="1146" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-210" parent="ovT4QU-ut75GtoFgMKDI-209" style="whiteSpace=wrap;strokeWidth=2;fontSize=17;" value="NAFNet 去雾" vertex="1">
+          <mxGeometry height="32.20377358490566" width="168" x="38" y="32.20377358490566" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-211" parent="ovT4QU-ut75GtoFgMKDI-209" style="whiteSpace=wrap;strokeWidth=2;fontSize=17;" value="NAFNet 去雨" vertex="1">
+          <mxGeometry height="34.09811320754717" width="158" x="44" y="75.77358490566039" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-212" parent="ovT4QU-ut75GtoFgMKDI-209" style="whiteSpace=wrap;strokeWidth=2;fontSize=17;" value="MBLLEN 低光" vertex="1">
+          <mxGeometry height="27.827849056603775" width="160" x="42" y="119.3433962264151" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-213" parent="ovT4QU-ut75GtoFgMKDI-209" style="whiteSpace=wrap;strokeWidth=2;fontSize=17;" value="Zero-DCE" vertex="1">
+          <mxGeometry height="28.9928679245283" width="152" x="47" y="157.2301886792453" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-214" parent="ovT4QU-ut75GtoFgMKDI-209" style="whiteSpace=wrap;strokeWidth=2;fontSize=17;" value="YOLOv8" vertex="1">
+          <mxGeometry height="27.941509433962263" width="147" x="47" y="197.95849056603774" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-221" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-215" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-209" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-215" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=16;" value="&lt;b&gt;路由与服务层 (Route &amp;amp; Services)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="373" width="361" x="932" y="757" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-216" parent="ovT4QU-ut75GtoFgMKDI-215" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="/api/image/*&#xa;/api/video/*&#xa;/api/camera/*&#xa;/api/history" vertex="1">
+          <mxGeometry height="87.39748953974895" width="182.71" x="85" y="34.00347280334728" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-217" parent="ovT4QU-ut75GtoFgMKDI-215" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="ImageEnhancer&#xa;NAFNet/MBLLEN/Zero-DCE/CLAHE" vertex="1">
+          <mxGeometry height="51.24758754863814" width="265.64954423592496" x="45.9978529755807" y="144.99670611985738" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-218" parent="ovT4QU-ut75GtoFgMKDI-215" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="AutoEnhancer&#xa;场景识别/调度" vertex="1">
+          <mxGeometry height="41.09322033898306" width="164.45555555555558" x="94.00444444444445" y="208.99668208305638" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-219" parent="ovT4QU-ut75GtoFgMKDI-215" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="VehicleDetector&#xa;YOLOv8 推理" vertex="1">
+          <mxGeometry height="47.09" width="248.48" x="55" y="261" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-220" parent="ovT4QU-ut75GtoFgMKDI-215" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="Benchmark&#xa;PSNR/mAP" vertex="1">
+          <mxGeometry height="41.09322033898306" width="139.3861111111111" x="111.99777777777778" y="321.49804020991417" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

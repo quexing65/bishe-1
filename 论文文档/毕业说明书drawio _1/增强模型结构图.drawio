@@ -1,0 +1,125 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="sZ-JgF7TyTz8H-urkVng">
+    <mxGraphModel dx="2163" dy="1364" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-1" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="增强器实现" vertex="1">
+          <mxGeometry height="382" width="1344" x="-79" y="298" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-2" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=20;" value="传统方法 (后备)" vertex="1">
+          <mxGeometry height="314" width="248" x="-57" y="328" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-3" parent="ovT4QU-ut75GtoFgMKDI-2" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="CLAHE 去雾/低光" vertex="1">
+          <mxGeometry height="60.33" width="174.78" x="44.22" y="40.67" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-4" parent="ovT4QU-ut75GtoFgMKDI-2" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="形态学去雨" vertex="1">
+          <mxGeometry height="51.0722891566265" width="134.57364341085272" x="64.4031007751938" y="139.0301204819277" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-5" parent="ovT4QU-ut75GtoFgMKDI-2" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="NLM 去噪" vertex="1">
+          <mxGeometry height="51.0722891566265" width="121.11627906976744" x="71.13178294573643" y="237.39156626506025" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-6" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=20;" value="ZeroDCEEnhancer" vertex="1">
+          <mxGeometry height="332" width="215" x="216" y="328" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-7" parent="ovT4QU-ut75GtoFgMKDI-6" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="低光增强" vertex="1">
+          <mxGeometry height="54" width="124" x="54" y="43" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-8" parent="ovT4QU-ut75GtoFgMKDI-6" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="零参考学习" vertex="1">
+          <mxGeometry height="54" width="140" x="46" y="147" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-9" parent="ovT4QU-ut75GtoFgMKDI-6" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="曲线估计" vertex="1">
+          <mxGeometry height="54" width="124" x="54" y="251" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-10" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=20;" value="MBLLENEnhancer" vertex="1">
+          <mxGeometry height="332" width="265" x="446" y="328" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-11" parent="ovT4QU-ut75GtoFgMKDI-10" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="低光增强 (TF原生)" vertex="1">
+          <mxGeometry height="54" width="190" x="46" y="43" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-12" parent="ovT4QU-ut75GtoFgMKDI-10" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="权重加载" vertex="1">
+          <mxGeometry height="54" width="124" x="79" y="147" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-13" parent="ovT4QU-ut75GtoFgMKDI-10" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="后处理三步" vertex="1">
+          <mxGeometry height="54" width="140" x="71" y="251" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-14" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=20;" value="OnnxMBLLENEnhancer" vertex="1">
+          <mxGeometry height="332" width="256" x="728" y="328" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-15" parent="ovT4QU-ut75GtoFgMKDI-14" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="低光增强 (ONNX)" vertex="1">
+          <mxGeometry height="54" width="181" x="46" y="43" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-16" parent="ovT4QU-ut75GtoFgMKDI-14" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="会话缓存" vertex="1">
+          <mxGeometry height="54" width="124" x="74" y="147" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-17" parent="ovT4QU-ut75GtoFgMKDI-14" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="600×400 输入" vertex="1">
+          <mxGeometry height="54" width="156" x="58" y="251" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-18" parent="1" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=20;" value="NAFNetONNXEnhancer" vertex="1">
+          <mxGeometry height="332" width="248" x="998" y="327" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-19" parent="ovT4QU-ut75GtoFgMKDI-18" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="去雾 (dehaze)" vertex="1">
+          <mxGeometry height="54" width="160" x="52" y="43" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-20" parent="ovT4QU-ut75GtoFgMKDI-18" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="去雨 (derain)" vertex="1">
+          <mxGeometry height="54" width="154" x="55" y="147" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-21" parent="ovT4QU-ut75GtoFgMKDI-18" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="16倍数填充对齐" vertex="1">
+          <mxGeometry height="54" width="173" x="46" y="251" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-22" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="&lt;b&gt;ImageEnhancer&lt;/b&gt;&#xa;(单例 + 策略调度)" vertex="1">
+          <mxGeometry height="78" width="246" x="456" y="-76" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-23" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="enhance_image(path, out, type)" vertex="1">
+          <mxGeometry height="54" width="260" x="449" y="47" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-24" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" value="策略分发字典&#xa;{dehaze→..., derain→...,&#xa;low_light→..., zero_dce→...}" vertex="1">
+          <mxGeometry height="102" width="260" x="449" y="151" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-25" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-22" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-23" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-26" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-23" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-24" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-27" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-24" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.66;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-18" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1191" y="278" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-28" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-24" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.81;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-14" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="889" y="278" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-29" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-24" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-10" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-30" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-24" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.83;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-6" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="289" y="278" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-31" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-24" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.67;entryX=0.5;entryY=0;rounded=0;fontSize=20;" target="ovT4QU-ut75GtoFgMKDI-2" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="2" y="278" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

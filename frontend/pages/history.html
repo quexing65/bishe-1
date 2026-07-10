@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>历史记录 - 车辆感知系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-theme="black">
+    <div class="theme-switcher">
+        <button class="theme-btn white" onclick="setTheme('white')" title="白色主题"></button>
+        <button class="theme-btn gray" onclick="setTheme('gray')" title="灰色主题"></button>
+        <button class="theme-btn black" onclick="setTheme('black')" title="黑色主题"></button>
+    </div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>基于图像增强的<br>恶劣天气车辆感知</h1>
+            <span>Vehicle Perception System</span>
+        </div>
+        <ul class="nav-menu">
+            <li><a href="image.html"><span class="icon">&#9632;</span>图片识别</a></li>
+            <li><a href="video.html"><span class="icon">&#9654;</span>视频识别</a></li>
+            <li><a href="camera.html"><span class="icon">&#9673;</span>摄像头识别</a></li>
+        </ul>
+        <div class="nav-section-title">数据</div>
+        <ul class="nav-menu">
+            <li><a href="history.html" class="active"><span class="icon">&#9776;</span>历史记录</a></li>
+            <li><a href="test_result.html"><span class="icon">&#9733;</span>测试结果</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <a href="/" class="back-link">返回首页</a>
+        <div class="page-header">
+            <h2>历史记录</h2>
+            <p>查看所有历史检测记录</p>
+        </div>
+        <div class="content-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;">
+                <h3>检测记录</h3>
+                <div style="display:flex;gap:10px;">
+                    <button class="btn btn-sm btn-ghost" id="selectAllBtn" onclick="selectAll()">全选</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteSelected()">删除选中</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteAll()">清空全部</button>
+                </div>
+            </div>
+            <div id="historyTable" style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:40px;"><input type="checkbox" id="selectAll" onchange="toggleSelectAll()"></th>
+                            <th>ID</th>
+                            <th>类型</th>
+                            <th>文件名</th>
+                            <th>增强图</th>
+                            <th>检测图</th>
+                            <th>总数</th>
+                            <th>轿车</th>
+                            <th>卡车</th>
+                            <th>公交</th>
+                            <th>摩托</th>
+                            <th>单车</th>
+                            <th>识别时间</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        <tr id="historyLoading"><td colspan="15" style="text-align:center;padding:40px;color:var(--text-muted);font-family:var(--font-mono);">加载中...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="imageModal">
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+        <div class="modal-title" id="modalTitle"></div>
+        <img id="modalImg" src="" alt="预览">
+        <div class="modal-nav">
+            <button onclick="switchTab('enhanced')">增强图</button>
+            <button onclick="switchTab('detected')">检测图</button>
+        </div>
+    </div>
+
+    <script>
+        function setTheme(t){document.body.setAttribute('data-theme',t);localStorage.setItem('theme',t)}
+        document.body.setAttribute('data-theme',localStorage.getItem('theme')||'black');
+
+        const API_BASE='http://127.0.0.1:5000';
+        let currentPage=1;
+        let modalRecordId=null;
+        let modalType='detected';
+
+        function formatDateTime(s){
+            if (!s) return '<span class="no-img">—</span>';
+            try {
+                const d = new Date(s);
+                if (isNaN(d.getTime())) return s;
+                const y = d.getFullYear();
+                const m = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                const h = String(d.getHours()).padStart(2, '0');
+                const min = String(d.getMinutes()).padStart(2, '0');
+                const sec = String(d.getSeconds()).padStart(2, '0');
+                return `${y}-${m}-${day} ${h}:${min}:${sec}`;
+            } catch (e) {
+                return s;
+            }
+        }
+
+        function imgThumb(record,type){
+            if(record.file_type==='video')return '<span class="no-img">视频</span>';
+            const url=`${API_BASE}/api/history/${record.id}/image/${type}`;
+            return `<img class="thumb" src="${url}" onclick="openModal(${record.id},'${type}')" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'no-img',textContent:'无'}))" loading="lazy">`;
+        }
+
+        async function loadHistory(page=1){
+            currentPage=page;
+            try{
+                const res=await fetch(`${API_BASE}/api/history?page=${page}&per_page=10`);
+                const data=await res.json();
+                const tbody=document.getElementById('historyBody');
+                tbody.innerHTML='';
+                if(!data.records||data.records.length===0){
+                    tbody.innerHTML='<tr><td colspan="15" style="text-align:center;padding:40px;color:var(--text-muted);">暂无历史记录</td></tr>';
+                    document.getElementById('pagination').innerHTML='';
+                    return;
+                }
+                const typeMap={'image':'图片','video':'视频','camera':'摄像头'};
+                data.records.forEach(r=>{
+                    const pt=r.processing_time?`${r.processing_time}秒`:'-';
+                    const tr=document.createElement('tr');
+                    tr.innerHTML=`
+                        <td><input type="checkbox" class="record-checkbox" value="${r.id}" onchange="updateSelectAllBtn()"></td>
+                        <td>${r.id}</td>
+                        <td>${typeMap[r.file_type]||r.file_type}</td>
+                        <td style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${r.file_name}">${r.file_name}</td>
+                        <td>${imgThumb(r,'enhanced')}</td>
+                        <td>${imgThumb(r,'detected')}</td>
+                        <td><strong>${r.total_vehicles}</strong></td>
+                        <td>${r.car_count}</td>
+                        <td>${r.truck_count}</td>
+                        <td>${r.bus_count}</td>
+                        <td>${r.motorcycle_count}</td>
+                        <td>${r.bicycle_count}</td>
+                        <td style="color:var(--accent);font-weight:bold;">${pt}</td>
+                        <td style="color:var(--text-muted);font-size:0.8rem;">${formatDateTime(r.created_at)}</td>
+                        <td><button class="btn btn-sm btn-danger" onclick="deleteRecord(${r.id})">删除</button></td>`;
+                    tbody.appendChild(tr);
+                });
+                renderPagination(data.total,data.per_page,data.page);
+                document.getElementById('selectAll').checked=false;
+            }catch(e){
+                const tbody=document.getElementById('historyBody');
+                tbody.innerHTML='<tr><td colspan="15" style="text-align:center;padding:40px;color:var(--error);">加载失败，请检查后端服务是否启动</td></tr>';
+                document.getElementById('pagination').innerHTML='';
+            }
+        }
+
+        function renderPagination(total,perPage,cur){
+            const pages=Math.ceil(total/perPage);
+            const el=document.getElementById('pagination');
+            el.innerHTML='';
+            if(pages<=1)return;
+            for(let i=1;i<=pages;i++){
+                const b=document.createElement('button');
+                b.textContent=i;
+                if(i===cur)b.className='active';
+                b.addEventListener('click',()=>loadHistory(i));
+                el.appendChild(b);
+            }
+        }
+
+        function toggleSelectAll(){
+            const c=document.getElementById('selectAll').checked;
+            document.querySelectorAll('.record-checkbox').forEach(cb=>cb.checked=c);
+            updateSelectAllBtn();
+        }
+        function updateSelectAllBtn(){
+            const cbs=document.querySelectorAll('.record-checkbox');
+            const all=Array.from(cbs).every(cb=>cb.checked);
+            document.getElementById('selectAllBtn').textContent=all?'取消全选':'全选';
+        }
+        function selectAll(){
+            const cbs=document.querySelectorAll('.record-checkbox');
+            const all=Array.from(cbs).every(cb=>cb.checked);
+            cbs.forEach(cb=>cb.checked=!all);
+            document.getElementById('selectAll').checked=!all;
+            updateSelectAllBtn();
+        }
+        function getSelectedIds(){
+            const ids=[];
+            document.querySelectorAll('.record-checkbox:checked').forEach(cb=>ids.push(parseInt(cb.value)));
+            return ids;
+        }
+
+        async function deleteSelected(){
+            const ids=getSelectedIds();
+            if(ids.length===0)return alert('请选择要删除的记录');
+            if(!confirm(`确定要删除选中的 ${ids.length} 条记录及对应图片吗？`))return;
+            try{
+                const res=await fetch(`${API_BASE}/api/history/delete`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids})});
+                const d=await res.json();
+                if(d.success){alert('删除成功');loadHistory(currentPage);updateSelectAllBtn()}
+                else alert('删除失败: '+d.error);
+            }catch(e){alert('删除失败: '+e.message)}
+        }
+
+        async function deleteRecord(id){
+            if(!confirm('确定要删除这条记录及对应图片吗？'))return;
+            try{
+                const res=await fetch(`${API_BASE}/api/history/delete`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:[id]})});
+                const d=await res.json();
+                if(d.success){alert('删除成功');loadHistory(currentPage);updateSelectAllBtn()}
+                else alert('删除失败: '+d.error);
+            }catch(e){alert('删除失败: '+e.message)}
+        }
+
+        async function deleteAll(){
+            if(!confirm('确定要清空所有历史记录及对应图片吗？此操作不可恢复！'))return;
+            try{
+                const res=await fetch(`${API_BASE}/api/history/delete_all`,{method:'POST'});
+                const d=await res.json();
+                if(d.success){alert('清空成功');loadHistory(1);updateSelectAllBtn()}
+                else alert('清空失败: '+d.error);
+            }catch(e){alert('清空失败: '+e.message)}
+        }
+
+        function openModal(id,type){
+            modalRecordId=id;modalType=type;
+            document.getElementById('modalImg').src=`${API_BASE}/api/history/${id}/image/${type}`;
+            document.getElementById('modalTitle').textContent=type==='enhanced'?'增强图':'检测图';
+            document.getElementById('imageModal').classList.add('active');
+        }
+        function closeModal(){document.getElementById('imageModal').classList.remove('active')}
+        function switchTab(type){
+            if(!modalRecordId)return;
+            modalType=type;
+            document.getElementById('modalImg').src=`${API_BASE}/api/history/${modalRecordId}/image/${type}`;
+            document.getElementById('modalTitle').textContent=type==='enhanced'?'增强图':'检测图';
+        }
+        document.getElementById('imageModal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+        document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+
+        loadHistory();
+    </script>
+</body>
+</html>

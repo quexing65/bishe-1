@@ -1,0 +1,140 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="第 1 页" id="sZ-JgF7TyTz8H-urkVng">
+    <mxGraphModel dx="2163" dy="964" grid="0" gridSize="10" guides="0" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-58" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="输入图像" vertex="1">
+          <mxGeometry height="54" width="124" x="280" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-59" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="计算亮度均值&#xa;B = mean(G)" vertex="1">
+          <mxGeometry height="78" width="156" x="370" y="124" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-60" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="计算对比度&#xa;C = std(G)" vertex="1">
+          <mxGeometry height="78" width="140" x="580" y="124" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-61" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="计算饱和度&#xa;S = mean(H)" vertex="1">
+          <mxGeometry height="78" width="147" x="11" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-62" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="计算清晰度&#xa;L = var(Lap)" vertex="1">
+          <mxGeometry height="78" width="145" x="209" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-63" parent="1" style="rhombus;strokeWidth=2;whiteSpace=wrap;fontSize=16;" value="B &amp;lt; 80  OR  C &amp;lt; 50 ?" vertex="1">
+          <mxGeometry height="183" width="183" x="460" y="252" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-64" parent="1" style="rhombus;strokeWidth=2;whiteSpace=wrap;fontSize=16;" value="S &amp;lt; 30 ?" vertex="1">
+          <mxGeometry height="107" width="107" x="32" y="405" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-65" parent="1" style="rhombus;strokeWidth=2;whiteSpace=wrap;fontSize=16;" value="L &amp;lt; 300  OR  C &amp;lt; 45 ?" vertex="1">
+          <mxGeometry height="189" width="189" x="269" y="359" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-66" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="low_light" vertex="1">
+          <mxGeometry height="54" width="126" x="509" y="496" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-67" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="dehaze" vertex="1">
+          <mxGeometry height="54" width="111" x="356" y="588" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-68" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="derain" vertex="1">
+          <mxGeometry height="54" width="106" x="-18" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-69" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" value="normal" vertex="1">
+          <mxGeometry height="54" width="110" x="138" y="588" as="geometry" />
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-70" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-58" style="curved=1;startArrow=none;endArrow=block;exitX=0.94;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-59" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="448" y="99" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-71" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-58" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.69;entryX=0.5;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-60" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="99" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-72" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-58" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.77;entryX=0.5;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-61" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="122" y="99" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-73" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-58" style="curved=1;startArrow=none;endArrow=block;exitX=0.26;exitY=1;entryX=0.5;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-62" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="285" y="99" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-74" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-59" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.06;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-63" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="448" y="227" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-75" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-60" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.92;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-63" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="227" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-76" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-61" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.34;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-64" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-77" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-62" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.29;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-65" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="304" y="358" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-78" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-63" style="curved=1;startArrow=none;endArrow=block;exitX=0.58;exitY=1;entryX=0.5;entryY=0.01;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-66" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="572" y="472" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-79" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-63" style="curved=1;startArrow=none;endArrow=block;exitX=0.09;exitY=1;entryX=0.91;entryY=0;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-65" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="438" y="415" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-80" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-65" style="curved=1;startArrow=none;endArrow=block;exitX=0.58;exitY=1;entryX=0.5;entryY=-0.01;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-67" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="396" y="564" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-81" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-65" style="curved=1;startArrow=none;endArrow=block;exitX=0;exitY=0.5;entryX=1;entryY=0.09;rounded=0;fontSize=16;exitDx=0;exitDy=0;" target="ovT4QU-ut75GtoFgMKDI-64" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="187" y="463" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-82" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-64" style="curved=1;startArrow=none;endArrow=block;exitX=0.07;exitY=1;entryX=0.5;entryY=0.01;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-68" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ovT4QU-ut75GtoFgMKDI-83" edge="1" parent="1" source="ovT4QU-ut75GtoFgMKDI-64" style="curved=1;startArrow=none;endArrow=block;exitX=0.94;exitY=1;entryX=0.5;entryY=0.01;rounded=0;fontSize=16;" target="ovT4QU-ut75GtoFgMKDI-69" value="No">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="154" y="548" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

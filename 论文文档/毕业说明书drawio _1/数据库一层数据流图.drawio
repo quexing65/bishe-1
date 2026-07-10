@@ -1,0 +1,83 @@
+<mxfile host="Electron">
+  <diagram name="第 1 页" id="v1p2TyiHJUh8_jWQY4js">
+    <mxGraphModel dx="1405" dy="643" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Le5njdcuUA5CHnqreex3-1" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="用户" vertex="1">
+          <mxGeometry height="54" width="92" x="-151" y="451" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-2" parent="1" style="whiteSpace=wrap;strokeWidth=2;fontSize=18;" value="Web前端" vertex="1">
+          <mxGeometry height="54" width="123" x="-159" y="669" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-3" parent="1" style="rounded=1;whiteSpace=wrap;arcSize=50;strokeWidth=2;fontSize=18;" value="&lt;b&gt;6.1&lt;/b&gt;&#xa;检测结果写入&#xa;INSERT INTO" vertex="1">
+          <mxGeometry height="87" width="133" x="-159" y="246" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-4" parent="1" style="rounded=1;whiteSpace=wrap;arcSize=50;strokeWidth=2;fontSize=18;" value="&lt;b&gt;6.2&lt;/b&gt;&#xa;历史查询/删除&#xa;SELECT / DELETE" vertex="1">
+          <mxGeometry height="100" width="174" x="35" y="646" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-5" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fontSize=18;" value="&lt;b&gt;D1&lt;/b&gt;&#xa;detection_records&#xa;────────────────&#xa;id / file_type&#xa;total_vehicles&#xa;car_count / bicycle_count&#xa;enhanced_image_path&#xa;detected_image_path&#xa;enhanced_image BLOB&#xa;detected_image BLOB&#xa;processing_time / created_at" vertex="1">
+          <mxGeometry height="272" width="286" x="18" y="307" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-6" parent="1" style="shape=cylinder3;boundedLbl=1;backgroundOutline=1;size=10;strokeWidth=2;whiteSpace=wrap;fontSize=18;" value="&lt;b&gt;D2&lt;/b&gt;&#xa;图像文件（磁盘）&#xa;────────────────&#xa;uploads/images/&#xa;output/enhanced/&#xa;output/detected/" vertex="1">
+          <mxGeometry height="205" width="196" x="430" y="333" as="geometry" />
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-7" edge="1" parent="1" style="curved=1;startArrow=none;endArrow=block;entryX=0.328;entryY=1.003;rounded=0;fontSize=18;entryDx=0;entryDy=0;entryPerimeter=0;" target="Le5njdcuUA5CHnqreex3-3" value="上传/检测请求">
+          <mxGeometry relative="1" x="-0.0367" y="-65" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+            <mxPoint x="-115" y="447" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-8" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-4" style="startArrow=none;endArrow=block;exitX=0.25;exitY=1;entryX=0.5;entryY=1;rounded=0;fontSize=18;exitDx=0;exitDy=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="Le5njdcuUA5CHnqreex3-2" value="历史数据列表">
+          <mxGeometry relative="1" x="-0.0639" y="-13" as="geometry">
+            <mxPoint x="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-9" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-3" style="startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.5;entryY=0;rounded=0;fontSize=18;exitDx=0;exitDy=0;edgeStyle=orthogonalEdgeStyle;" target="Le5njdcuUA5CHnqreex3-5" value="检测统计 &amp; BLOB">
+          <mxGeometry relative="1" x="-0.0513" y="21" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-10" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-3" style="startArrow=none;endArrow=block;entryX=0.71;entryY=0;rounded=0;fontSize=18;exitX=0.437;exitY=0.004;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;" target="Le5njdcuUA5CHnqreex3-6" value="图像文件">
+          <mxGeometry relative="1" x="-0.0063" y="-14" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-11" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-4" style="curved=1;startArrow=none;endArrow=block;entryX=0.446;entryY=1.002;rounded=0;fontSize=18;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.635;exitY=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="Le5njdcuUA5CHnqreex3-5" value="分页查询 / 按ID删除">
+          <mxGeometry relative="1" x="-0.0946" y="-86" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+            <mxPoint x="146" y="640" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-12" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-4" style="startArrow=none;endArrow=block;exitX=0.958;exitY=0.831;entryX=-0.011;entryY=0.619;rounded=0;fontSize=18;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;" target="Le5njdcuUA5CHnqreex3-6" value="同步清理磁盘">
+          <mxGeometry relative="1" x="0.1746" y="-66" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="392" y="728" />
+              <mxPoint x="392" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-13" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-5" style="curved=1;startArrow=none;endArrow=block;exitX=0.265;exitY=0.996;entryX=0.338;entryY=0.015;rounded=0;fontSize=18;exitDx=0;exitDy=0;exitPerimeter=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="Le5njdcuUA5CHnqreex3-4" value="记录列表">
+          <mxGeometry relative="1" x="-0.0782" y="-45" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Le5njdcuUA5CHnqreex3-14" edge="1" parent="1" source="Le5njdcuUA5CHnqreex3-6" style="startArrow=none;endArrow=block;exitX=-0.02;exitY=0.206;rounded=0;fontSize=18;exitDx=0;exitDy=0;exitPerimeter=0;edgeStyle=orthogonalEdgeStyle;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="Le5njdcuUA5CHnqreex3-4" value="文件读取">
+          <mxGeometry relative="1" x="0.7461" y="-18" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="333" y="375" />
+              <mxPoint x="333" y="695" />
+              <mxPoint x="209" y="695" />
+            </Array>
+            <mxPoint x="225" y="696" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

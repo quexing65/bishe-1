@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试结果 - 车辆感知系统</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body data-theme="black">
+    <div class="theme-switcher">
+        <button class="theme-btn white" onclick="setTheme('white')" title="白色主题"></button>
+        <button class="theme-btn gray" onclick="setTheme('gray')" title="灰色主题"></button>
+        <button class="theme-btn black" onclick="setTheme('black')" title="黑色主题"></button>
+    </div>
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>基于图像增强的<br>恶劣天气车辆感知</h1>
+            <span>Vehicle Perception System</span>
+        </div>
+        
+        <ul class="nav-menu">
+            <li>
+                <a href="image.html">
+                    <span class="icon">&#9632;</span>
+                    图片识别
+                </a>
+            </li>
+            <li>
+                <a href="video.html">
+                    <span class="icon">&#9654;</span>
+                    视频识别
+                </a>
+            </li>
+            <li>
+                <a href="camera.html">
+                    <span class="icon">&#9673;</span>
+                    摄像头识别
+                </a>
+            </li>
+        </ul>
+        
+        <div class="nav-section-title">数据</div>
+        <ul class="nav-menu">
+            <li>
+                <a href="history.html">
+                    <span class="icon">&#9776;</span>
+                    历史记录
+                </a>
+            </li>
+            <li>
+                <a href="test_result.html" class="active">
+                    <span class="icon">&#9733;</span>
+                    测试结果
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <a href="/" class="back-link">返回首页</a>
+        
+        <div class="page-header">
+            <h2>多源数据测试结果</h2>
+            <p>1,484 张图片 · 4,050 次检测 · YOLOv8x 模型</p>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>加载测试数据...</p>
+        </div>
+        
+        <div id="content" style="display: none;">
+            <div class="content-card">
+                <h3>数据集概览</h3>
+                <div class="results-grid" id="datasetOverview"></div>
+            </div>
+            
+            <div class="content-card">
+                <h3>mAP 检测性能对比</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">各场景下不同增强方法的 mAP50 和 mAP50-95 对比</p>
+                <div class="chart-grid" id="mapCharts"></div>
+            </div>
+            
+            <div class="content-card">
+                <h3>图像质量分析</h3>
+                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">PSNR/SSIM 图像质量指标与增强后 mAP 变化率</p>
+                <div class="chart-grid" id="qualityCharts"></div>
+            </div>
+            
+            <div class="content-card">
+                <h3>增强效果对比</h3>
+                <div class="comparison-grid" id="enhancementStats"></div>
+            </div>
+            
+            <div class="content-card">
+                <h3>逐图详细数据</h3>
+                <div style="margin-bottom: 12px;">
+                    <select id="filterDataset" onchange="filterTable()">
+                        <option value="">全部场景</option>
+                        <option value="foggy">雾天</option>
+                        <option value="rainy">雨天</option>
+                        <option value="lowlight">低光照</option>
+                        <option value="normal">正常</option>
+                    </select>
+                    <select id="filterEnhancement" onchange="filterTable()">
+                        <option value="">全部增强</option>
+                        <option value="none">无增强</option>
+                        <option value="dehaze">去雾</option>
+                        <option value="derain">去雨</option>
+                        <option value="low_light">CLAHE</option>
+                        <option value="mbllen_onnx">MBLLEN</option>
+                        <option value="auto">自动</option>
+                    </select>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>文件名</th>
+                            <th>场景</th>
+                            <th>增强</th>
+                            <th>亮度前→后</th>
+                            <th>增强耗时</th>
+                            <th>检测耗时</th>
+                            <th>车辆数</th>
+                            <th>GT</th>
+                            <th>mAP50</th>
+                            <th>mAP50-95</th>
+                            <th>PSNR</th>
+                            <th>SSIM</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable"></tbody>
+                </table>
+                <div style="margin-top: 12px; color: var(--text-muted); font-size: 0.8rem;" id="tableInfo"></div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'black';
+        document.body.setAttribute('data-theme', savedTheme);
+        
+        const COLORS = {
+            none: '#6c757d',
+            dehaze: '#555555',
+            derain: '#888888',
+            ffa_dehaze: '#777777',
+            ffa_dehaze_ots: '#999999',
+            low_light: '#333333',
+            mbllen_onnx: '#444444',
+            auto: '#aaaaaa'
+        };
+        
+        const LABELS = {
+            none: '无增强',
+            dehaze: '去雾(NAFNet)',
+            derain: '去雨',
+            ffa_dehaze: '去雾(FFA-Net ITS)',
+            ffa_dehaze_ots: '去雾(FFA-Net OTS)',
+            low_light: 'CLAHE',
+            mbllen_onnx: 'MBLLEN',
+            auto: '自动增强'
+        };
+        
+        const DATASET_LABELS = {
+            foggy: '雾天',
+            rainy: '雨天',
+            lowlight: '低光照',
+            normal: '正常'
+        };
+        
+        let detailedData = [];
+        let summaryData = [];
+        
+        async function loadTestResults() {
+            try {
+                const resp = await fetch('/api/benchmark/results');
+                const json = await resp.json();
+                
+                if (!json.success || json.empty) {
+                    document.getElementById('loading').querySelector('p').textContent = 
+                        '暂无测试数据，请运行 python run_benchmark.py 生成测试结果';
+                    return;
+                }
+                
+                summaryData = normalizeSummary(json.summary);
+                detailedData = normalizeDetailed(json.detailed);
+                
+                renderDatasetOverview(summaryData);
+                renderMapCharts(summaryData);
+                renderQualityCharts(summaryData);
+                renderEnhancementStats(summaryData);
+                renderDataTable(detailedData);
+                
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+            } catch (err) {
+                document.getElementById('loading').querySelector('p').textContent = '加载失败: ' + err.message;
+            }
+        }
+        
+        function normalizeSummary(rows) {
+            return rows.map(r => ({
+                dataset: r.dataset,
+                enhancement: r.enhancement,
+                model: r.model,
+                image_count: parseInt(r.image_count),
+                avg_brightness_before: parseFloat(r.avg_brightness_before),
+                avg_brightness_after: parseFloat(r.avg_brightness_after),
+                avg_brightness_gain: parseFloat(r.avg_brightness_gain),
+                avg_enhancement_time_ms: parseFloat(r.avg_enhancement_time_ms),
+                avg_detect_time_ms: parseFloat(r.avg_detect_time_ms),
+                avg_total_time_ms: parseFloat(r.avg_total_time_ms),
+                avg_vehicle_count: parseFloat(r.avg_vehicle_count),
+                avg_confidence: parseFloat(r.avg_confidence),
+                mAP50: parseFloat(r.mAP50),
+                mAP50_95: parseFloat(r.mAP50_95),
+                avg_psnr: parseFloat(r.avg_psnr),
+                avg_ssim: parseFloat(r.avg_ssim)
+            }));
+        }
+        
+        function normalizeDetailed(rows) {
+            return rows.map(r => ({
+                dataset: r.dataset,
+                filename: r.filename,
+                enhancement: r.enhancement,
+                model: r.model,
+                brightness_before: parseFloat(r.brightness_before),
+                brightness_after: parseFloat(r.brightness_after),
+                brightness_gain: parseFloat(r.brightness_gain),
+                enhancement_time_ms: parseFloat(r.enhancement_time_ms),
+                detect_time_ms: parseFloat(r.detect_time_ms),
+                total_time_ms: parseFloat(r.total_time_ms),
+                vehicle_count: parseInt(r.vehicle_count),
+                avg_confidence: parseFloat(r.avg_confidence),
+                gt_count: parseInt(r.gt_count),
+                mAP50: parseFloat(r.mAP50),
+                mAP50_95: parseFloat(r.mAP50_95),
+                precision: parseFloat(r.precision),
+                recall: parseFloat(r.recall),
+                psnr: parseFloat(r.psnr),
+                ssim: parseFloat(r.ssim)
+            }));
+        }
+        
+        function renderDatasetOverview(data) {
+            const container = document.getElementById('datasetOverview');
+            const noneData = data.filter(r => r.enhancement === 'none');
+            
+            const colors = {
+                foggy: '#6c757d',
+                rainy: '#888888',
+                lowlight: '#333333',
+                normal: '#aaaaaa'
+            };
+            
+            let totalImages = 0;
+            let html = '';
+            
+            for (const row of noneData) {
+                totalImages += row.image_count;
+                html += `
+                    <div class="result-card" style="border-left: 4px solid ${colors[row.dataset]};">
+                        <h4>${DATASET_LABELS[row.dataset]}</h4>
+                        <div class="count">${row.image_count}</div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem; margin-top: 8px;">
+                            mAP50: ${row.mAP50.toFixed(4)}
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">
+                            平均亮度: ${row.avg_brightness_before.toFixed(1)}
+                        </div>
+                        <div style="color: var(--text-muted); font-size: 0.75rem;">
+                            平均车辆: ${row.avg_vehicle_count.toFixed(1)} 辆
+                        </div>
+                    </div>
+                `;
+            }
+            
+            html += `
+                <div class="result-card total">
+                    <h4>总计</h4>
+                    <div class="count">${totalImages}</div>
+                    <div style="color: var(--bg); font-size: 0.75rem; margin-top: 8px;">
+                        4,050 次检测
+                    </div>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function renderMapCharts(data) {
+            const container = document.getElementById('mapCharts');
+            const datasets = ['foggy', 'rainy', 'lowlight', 'normal'];
+            
+            let html = '';
+            
+            for (const ds of datasets) {
+                const dsData = data.filter(r => r.dataset === ds);
+                if (dsData.length === 0) continue;
+                
+                const enhancements = dsData.map(r => r.enhancement);
+                const map50Vals = dsData.map(r => r.mAP50);
+                const map50_95Vals = dsData.map(r => r.mAP50_95);
+                
+                html += `
+                    <div class="chart-item">
+                        <h4>${DATASET_LABELS[ds]} 场景</h4>
+                        <table style="width: 100%; font-size: 0.85rem;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left; padding: 4px 8px;">增强方法</th>
+                                    <th style="text-align: right; padding: 4px 8px;">mAP50</th>
+                                    <th style="text-align: right; padding: 4px 8px;">mAP50-95</th>
+                                    <th style="text-align: right; padding: 4px 8px;">变化</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                `;
+                
+                const baseMap50 = dsData.find(r => r.enhancement === 'none')?.mAP50 || 0;
+                
+                for (const row of dsData) {
+                    const change = row.mAP50 - baseMap50;
+                    const changeClass = change > 0 ? 'positive' : change < 0 ? 'negative' : 'neutral';
+                    const changeStr = change >= 0 ? `+${(change * 100).toFixed(1)}%` : `${(change * 100).toFixed(1)}%`;
+                    
+                    html += `
+                        <tr>
+                            <td style="padding: 4px 8px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: ${COLORS[row.enhancement]}; margin-right: 6px;"></span>
+                                ${LABELS[row.enhancement]}
+                            </td>
+                            <td style="text-align: right; padding: 4px 8px; font-weight: 600;">${row.mAP50.toFixed(4)}</td>
+                            <td style="text-align: right; padding: 4px 8px;">${row.mAP50_95.toFixed(4)}</td>
+                            <td style="text-align: right; padding: 4px 8px;" class="${changeClass}">${changeStr}</td>
+                        </tr>
+                    `;
+                }
+                
+                html += `
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function renderQualityCharts(data) {
+            const container = document.getElementById('qualityCharts');
+            const enhData = data.filter(r => r.enhancement !== 'none');
+            
+            let html = `
+                <div class="chart-item">
+                    <h4>图像质量指标 (PSNR vs SSIM)</h4>
+                    <table style="width: 100%; font-size: 0.85rem;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; padding: 4px 8px;">场景+方法</th>
+                                <th style="text-align: right; padding: 4px 8px;">PSNR (dB)</th>
+                                <th style="text-align: right; padding: 4px 8px;">SSIM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            for (const row of enhData) {
+                const psnrClass = row.avg_psnr >= 30 ? 'positive' : row.avg_psnr >= 20 ? 'neutral' : 'negative';
+                html += `
+                    <tr>
+                        <td style="padding: 4px 8px;">${DATASET_LABELS[row.dataset]} + ${LABELS[row.enhancement]}</td>
+                        <td style="text-align: right; padding: 4px 8px;" class="${psnrClass}">${row.avg_psnr.toFixed(2)}</td>
+                        <td style="text-align: right; padding: 4px 8px;">${row.avg_ssim.toFixed(4)}</td>
+                    </tr>
+                `;
+            }
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+                <div class="chart-item">
+                    <h4>增强后 mAP50 变化率</h4>
+                    <table style="width: 100%; font-size: 0.85rem;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left; padding: 4px 8px;">场景+方法</th>
+                                <th style="text-align: right; padding: 4px 8px;">mAP50</th>
+                                <th style="text-align: right; padding: 4px 8px;">变化率</th>
+                                <th style="text-align: right; padding: 4px 8px;">耗时</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            
+            for (const row of enhData) {
+                const noneRow = data.find(r => r.dataset === row.dataset && r.enhancement === 'none');
+                const baseMap = noneRow ? noneRow.mAP50 : 0;
+                const changePct = baseMap > 0 ? ((row.mAP50 - baseMap) / baseMap * 100) : 0;
+                const changeClass = changePct > 0 ? 'positive' : changePct < 0 ? 'negative' : 'neutral';
+                
+                html += `
+                    <tr>
+                        <td style="padding: 4px 8px;">${DATASET_LABELS[row.dataset]} + ${LABELS[row.enhancement]}</td>
+                        <td style="text-align: right; padding: 4px 8px;">${row.mAP50.toFixed(4)}</td>
+                        <td style="text-align: right; padding: 4px 8px;" class="${changeClass}">${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%</td>
+                        <td style="text-align: right; padding: 4px 8px;">${row.avg_enhancement_time_ms.toFixed(0)}ms</td>
+                    </tr>
+                `;
+            }
+            
+            html += `
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+        }
+        
+        function renderEnhancementStats(data) {
+            const container = document.getElementById('enhancementStats');
+            const enhData = data.filter(r => r.enhancement !== 'none');
+            
+            const datasets = ['foggy', 'rainy', 'lowlight'];
+            let html = '';
+            
+            for (const ds of datasets) {
+                const dsEnh = enhData.filter(r => r.dataset === ds);
+                if (dsEnh.length === 0) continue;
+                
+                html += `
+                    <div class="comparison-card">
+                        <h4>${DATASET_LABELS[ds]} 场景</h4>
+                `;
+                
+                for (const row of dsEnh) {
+                    const noneRow = data.find(r => r.dataset === ds && r.enhancement === 'none');
+                    const baseMap = noneRow ? noneRow.mAP50 : 0;
+                    const changePct = baseMap > 0 ? ((row.mAP50 - baseMap) / baseMap * 100) : 0;
+                    const changeClass = changePct > 0 ? 'positive' : 'negative';
+                    
+                    html += `
+                        <div class="stat-row">
+                            <span class="stat-label">${LABELS[row.enhancement]}</span>
+                            <span class="stat-value ${changeClass}">${changePct >= 0 ? '+' : ''}${changePct.toFixed(1)}%</span>
+                        </div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">
+                            mAP50: ${row.mAP50.toFixed(4)} | 耗时: ${row.avg_enhancement_time_ms.toFixed(0)}ms
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+            }
+            
+            container.innerHTML = html;
+        }
+        
+        function renderDataTable(data) {
+            const tbody = document.getElementById('dataTable');
+            const tableInfo = document.getElementById('tableInfo');
+            
+            let html = '';
+            data.forEach((r, i) => {
+                const dsColor = {
+                    foggy: '#6c757d',
+                    rainy: '#888888',
+                    lowlight: '#333333',
+                    normal: '#aaaaaa'
+                }[r.dataset] || '#666';
+                
+                html += `
+                    <tr data-dataset="${r.dataset}" data-enhancement="${r.enhancement}">
+                        <td>${i + 1}</td>
+                        <td style="font-size: 0.75rem; max-width: 200px; overflow: hidden; text-overflow: ellipsis;">${r.filename}</td>
+                        <td><span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: ${dsColor}; margin-right: 4px;"></span>${DATASET_LABELS[r.dataset]}</td>
+                        <td>${LABELS[r.enhancement]}</td>
+                        <td style="font-size: 0.8rem;">${r.brightness_before.toFixed(0)} → ${r.brightness_after.toFixed(0)}</td>
+                        <td style="font-size: 0.8rem;">${r.enhancement_time_ms.toFixed(1)}ms</td>
+                        <td style="font-size: 0.8rem;">${r.detect_time_ms.toFixed(0)}ms</td>
+                        <td>${r.vehicle_count}</td>
+                        <td>${r.gt_count}</td>
+                        <td style="font-weight: 600;">${r.mAP50.toFixed(4)}</td>
+                        <td>${r.mAP50_95.toFixed(4)}</td>
+                        <td style="font-size: 0.8rem;">${r.psnr.toFixed(1)}</td>
+                        <td style="font-size: 0.8rem;">${r.ssim.toFixed(4)}</td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+            tableInfo.textContent = `显示 ${data.length} 条记录`;
+        }
+        
+        function filterTable() {
+            const dsFilter = document.getElementById('filterDataset').value;
+            const enhFilter = document.getElementById('filterEnhancement').value;
+            
+            const rows = document.querySelectorAll('#dataTable tr');
+            let visibleCount = 0;
+            
+            rows.forEach(row => {
+                const ds = row.dataset.dataset;
+                const enh = row.dataset.enhancement;
+                
+                const dsMatch = !dsFilter || ds === dsFilter;
+                const enhMatch = !enhFilter || enh === enhFilter;
+                
+                if (dsMatch && enhMatch) {
+                    row.style.display = '';
+                    visibleCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            document.getElementById('tableInfo').textContent = `显示 ${visibleCount} / ${rows.length} 条记录`;
+        }
+        
+        loadTestResults();
+    </script>
+</body>
+</html>

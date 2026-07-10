@@ -1,0 +1,22 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv/
+
+# IDE files
+.idea/
+.vscode/
+.trae/
+
+# Model weights (large binaries, not tracked)
+weights/
+
+# Generated data / runtime output
+output/
+uploads/

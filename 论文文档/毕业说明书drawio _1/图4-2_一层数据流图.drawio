@@ -1,0 +1,109 @@
+<mxfile host="Electron" agent="Trae">
+  <diagram name="Level-1 一层数据流图" id="dfd-level1">
+    <mxGraphModel dx="832" dy="532" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="650" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="E1" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;fontSize=14;" value="用户" vertex="1">
+          <mxGeometry height="45" width="70" x="180" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="E2" parent="1" style="shape=rectangle;rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;fontSize=14;" value="前端展示" vertex="1">
+          <mxGeometry height="45" width="90" x="750" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="P1" parent="1" style="shape=rectangle;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;fontSize=14;arcSize=15;verticalAlign=top;spacingTop=5;" value="&lt;b&gt;1&lt;/b&gt;&lt;br&gt;&lt;br&gt;接收输入" vertex="1">
+          <mxGeometry height="65" width="110" x="160" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="P2" parent="1" style="shape=rectangle;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;fontSize=14;arcSize=15;verticalAlign=top;spacingTop=5;" value="&lt;b&gt;2&lt;/b&gt;&lt;br&gt;&lt;br&gt;场景识别" vertex="1">
+          <mxGeometry height="65" width="90" x="340" y="225" as="geometry" />
+        </mxCell>
+        <mxCell id="P3" parent="1" style="shape=rectangle;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;fontSize=14;arcSize=15;verticalAlign=top;spacingTop=5;" value="&lt;b&gt;3&lt;/b&gt;&lt;br&gt;&lt;br&gt;图像增强" vertex="1">
+          <mxGeometry height="65" width="90" x="520" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="P4" parent="1" style="shape=rectangle;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;fontSize=14;arcSize=15;verticalAlign=top;spacingTop=5;" value="&lt;b&gt;4&lt;/b&gt;&lt;br&gt;&lt;br&gt;车辆检测" vertex="1">
+          <mxGeometry height="65" width="110" x="710" y="160" as="geometry" />
+        </mxCell>
+        <mxCell id="P5" parent="1" style="shape=rectangle;rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1.5;fontSize=14;arcSize=15;verticalAlign=top;spacingTop=5;" value="&lt;b&gt;5&lt;/b&gt;&lt;br&gt;&lt;br&gt;结果封装" vertex="1">
+          <mxGeometry height="65" width="110" x="415" y="310" as="geometry" />
+        </mxCell>
+        <mxCell id="D1" parent="1" style="shape=partialRectangle;top=1;left=1;bottom=1;right=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;fontSize=14;rotation=0;size=0.5;" value="&lt;b&gt;D1&lt;/b&gt;&lt;br&gt;detection_records&lt;br&gt;MySQL数据库" vertex="1">
+          <mxGeometry height="55" width="150" x="340" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="D2" parent="1" style="shape=partialRectangle;top=1;left=1;bottom=1;right=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#000000;strokeWidth=1;fontSize=14;rotation=0;size=0.5;" value="&lt;b&gt;D2&lt;/b&gt;&lt;br&gt;文件系统&lt;br&gt;uploads/output/weights" vertex="1">
+          <mxGeometry height="55" width="160" x="550" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="F1" edge="1" parent="1" source="E1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="P1" value="图像/视频/帧数据">
+          <mxGeometry relative="1" x="-0.3538" y="-56" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F2" edge="1" parent="1" source="E2" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;entryX=1;entryY=0.5;entryDx=0;entryDy=0;exitX=0;exitY=0.75;exitDx=0;exitDy=0;" target="P5" value="请求指令">
+          <mxGeometry relative="1" x="-0.4675" y="9" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="810" y="343" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F3" edge="1" parent="1" source="P1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;" target="P2" value="原始图像">
+          <mxGeometry relative="1" x="-0.2513" y="30" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F4" edge="1" parent="1" source="P2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.75;exitY=0;exitDx=0;exitDy=0;" target="P3" value="天气类型（雾/雨/低光/正常）">
+          <mxGeometry relative="1" x="-0.28" y="13" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F5" edge="1" parent="1" source="P3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;" target="P4" value="增强后图像">
+          <mxGeometry relative="1" x="-0.04" y="12" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F6" edge="1" parent="1" source="P4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="P5" value="检测框/类别/置信度">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="793" y="230" />
+              <mxPoint x="793" y="270" />
+              <mxPoint x="498" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F7" edge="1" parent="1" source="P5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="D1" value="写入记录">
+          <mxGeometry relative="1" x="0.2239" y="-13" as="geometry">
+            <mxPoint x="8" y="-12" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F8" edge="1" parent="1" source="P5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="D2" value="保存图像文件">
+          <mxGeometry relative="1" x="-0.0859" y="10" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F9" edge="1" parent="1" source="D1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.8;entryDx=0;entryDy=0;" target="P5" value="读取历史记录">
+          <mxGeometry relative="1" x="0.5043" y="-13" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="298" y="498" />
+              <mxPoint x="298" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F10" edge="1" parent="1" source="D2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=0.696;exitY=-0.01;exitDx=0;exitDy=0;entryX=1;entryY=0.8;entryDx=0;entryDy=0;exitPerimeter=0;" target="P5" value="读取图像URL">
+          <mxGeometry relative="1" x="-0.3203" y="-43" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="650" y="470" />
+              <mxPoint x="650" y="362" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="F11" edge="1" parent="1" source="P5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#000000;strokeWidth=1;fontSize=14;labelBackgroundColor=#ffffff;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0.007;entryY=0.38;entryDx=0;entryDy=0;entryPerimeter=0;" target="E2" value="检测结果（JSON响应）">
+          <mxGeometry relative="1" x="-0.0427" y="14" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="668" y="326" />
+            </Array>
+            <mxPoint x="810" y="326" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

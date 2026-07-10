@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恶劣天气车辆感知系统</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-theme="black">
+    <div class="theme-switcher">
+        <button class="theme-btn white" onclick="setTheme('white')" title="白色主题"></button>
+        <button class="theme-btn gray" onclick="setTheme('gray')" title="灰色主题"></button>
+        <button class="theme-btn black" onclick="setTheme('black')" title="黑色主题"></button>
+    </div>
+    
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1>基于图像增强的<br>恶劣天气车辆感知</h1>
+            <span>Vehicle Perception System</span>
+        </div>
+        
+        <ul class="nav-menu">
+            <li>
+                <a href="pages/image.html">
+                    <span class="icon">&#9632;</span>
+                    图片识别
+                </a>
+            </li>
+            <li>
+                <a href="pages/video.html">
+                    <span class="icon">&#9654;</span>
+                    视频识别
+                </a>
+            </li>
+            <li>
+                <a href="pages/camera.html">
+                    <span class="icon">&#9673;</span>
+                    摄像头识别
+                </a>
+            </li>
+        </ul>
+        
+        <div class="nav-section-title">数据</div>
+        <ul class="nav-menu">
+            <li>
+                <a href="pages/history.html">
+                    <span class="icon">&#9776;</span>
+                    历史记录
+                </a>
+            </li>
+            <li>
+                <a href="pages/test_result.html">
+                    <span class="icon">&#9733;</span>
+                    测试结果
+                </a>
+            </li>
+        </ul>
+    </aside>
+    
+    <main class="main-content">
+        <div class="hero-section">
+            <h1 class="hero-title">恶劣天气车辆感知系统</h1>
+            <p class="hero-subtitle">
+                基于 YOLO 深度学习与图像增强技术，实现雾天、雨天、低光照等恶劣天气条件下的精准车辆检测
+            </p>
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">车型识别</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">增强模式</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">输入方式</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features-grid">
+            <a href="pages/image.html" class="feature-card">
+                <div class="feature-icon">&#9632;</div>
+                <div class="feature-title">图片识别</div>
+                <div class="feature-desc">上传图片进行车辆检测，支持多种图像增强技术</div>
+            </a>
+            
+            <a href="pages/video.html" class="feature-card">
+                <div class="feature-icon">&#9654;</div>
+                <div class="feature-title">视频识别</div>
+                <div class="feature-desc">上传视频文件，自动检测并标注画面中的车辆</div>
+            </a>
+            
+            <a href="pages/camera.html" class="feature-card">
+                <div class="feature-icon">&#9673;</div>
+                <div class="feature-title">摄像头识别</div>
+                <div class="feature-desc">使用电脑摄像头实时捕捉画面并进行车辆检测</div>
+            </a>
+            
+            <a href="pages/test_result.html" class="feature-card">
+                <div class="feature-icon">&#9733;</div>
+                <div class="feature-title">测试结果</div>
+                <div class="feature-desc">查看多源数据测试结果与分析报告</div>
+            </a>
+        </div>
+        
+        <div class="capabilities-section">
+            <h2 class="section-title">支持的车型</h2>
+            <p class="section-desc">系统能够识别以下五种常见车辆类型</p>
+            <div class="capability-tags">
+                <span class="capability-tag">轿车 (Car)</span>
+                <span class="capability-tag">卡车 (Truck)</span>
+                <span class="capability-tag">公交车 (Bus)</span>
+                <span class="capability-tag">摩托车 (Motorcycle)</span>
+                <span class="capability-tag">自行车 (Bicycle)</span>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        function setTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+        }
+        
+        const savedTheme = localStorage.getItem('theme') || 'black';
+        document.body.setAttribute('data-theme', savedTheme);
+    </script>
+</body>
+</html>
